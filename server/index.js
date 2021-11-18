@@ -1,0 +1,99 @@
+const express = require('express')
+
+const app = express()
+const cors = require("cors");
+app.use(cors({origin: true, credentials: true}));
+
+app.use(express.json())
+
+
+const mysql = require('mysql2');
+const { default: axios } = require('axios');
+
+const db = mysql.createConnection({
+    user: 'root',
+    host: 'localhost',
+    password: 'Wenger<3',
+    database: 'Sportial'
+})
+
+// app.get('/insert', (req, res) => {
+  
+//     db.query('INSERT INTO User (id, username, password) VALUES (6, "areeeebb", "1234567891011")', (err, result) => {
+//         if (err) {
+//             console.log(err);
+//         }
+
+//         res.send(result);
+//     })
+// })
+
+// app.get('/select', (req, res) => {
+  
+//     db.query('SELECT * FROM User', (err, result) => {
+//         if (err) {
+//             console.log(err);
+//         }
+
+//         res.send(result);
+//     })
+// })
+
+app.post("/register", (req, res) => {
+
+    const username = req.body.username
+    const password = req.body.password;
+    console.log('username: ', username);
+
+    db.query("SELECT username FROM USER WHERE username = '"+ username +"'", function(err, result, field){
+        if(result.length === 0){
+                db.query('INSERT INTO User (username, password) VALUES (?,?)',
+                [username, password],
+                (err, result) => {
+                    if (err) {
+                    // console.log(err)
+                    }
+                })
+
+                res.send('signed up')
+        // res.send('sign up success')
+               //new user logic
+       }else{  
+           //existing user, redirect to another page 
+           console.log('have already signed up')
+           res.send('user exists')
+        }
+               
+        })
+// }
+})
+
+app.post("/login", (req, res) => {
+
+    const username = req.body.username
+    const password = req.body.password;
+    console.log('username: ', username);
+
+    db.query("SELECT username FROM USER WHERE username = '"+ username +"'", function(err, result, field){
+        if(result.length === 0){
+                
+           res.send('non-existing user');
+        
+               //new user logic
+       }else{  
+           //existing user, redirect to another page 
+           
+           res.send('successful login')
+        }
+               
+        })
+// }
+})
+
+
+
+
+
+app.listen(3002, () => {
+    console.log('server running');
+})
