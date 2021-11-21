@@ -85,7 +85,7 @@ const Login = ({ navigation }) => {
 
                 var res = JSON.parse(JSON.stringify(response.data))
 
-                if (res === "non-existing user") {
+                if (res.length == 0) {
                     console.warn('heree')
 
                     //show error alert
@@ -102,11 +102,12 @@ const Login = ({ navigation }) => {
                         ]
                     );
                 }
-                else if (res == "successful login") {
+                else {
                     // merge with Saharsh code
-                    console.log('successsss')
-                    console.warn('helloß')
-                    navigation.navigate('homescreen')
+                    
+                    console.warn(res)
+                   
+                    navigation.navigate('homescreen', {id: res[0].id, name: res[0].username})
 
                 }
             }).catch((err) => {

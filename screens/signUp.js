@@ -18,6 +18,7 @@ const SignUp = ({navigation}) => {
                 username: username,
                 password: password,
             }).then((response) => {
+                console.log('hi')
                 console.log(JSON.stringify(response.data));
             }).catch((err) => {
                 console.log('error: ', err)

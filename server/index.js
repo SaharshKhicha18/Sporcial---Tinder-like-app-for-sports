@@ -43,7 +43,7 @@ app.post("/register", (req, res) => {
 
     const username = req.body.username
     const password = req.body.password;
-    console.log('username: ', username);
+    // console.log('username: ', username);
 
     db.query("SELECT username FROM USER WHERE username = '"+ username +"'", function(err, result, field){
         if(result.length === 0){
@@ -60,7 +60,7 @@ app.post("/register", (req, res) => {
                //new user logic
        }else{  
            //existing user, redirect to another page 
-           console.log('have already signed up')
+           
            res.send('user exists')
         }
                
@@ -72,21 +72,27 @@ app.post("/login", (req, res) => {
 
     const username = req.body.username
     const password = req.body.password;
-    console.log('username: ', username);
+    console.log('HEREE', username)
+    // console.log('username: ', username);
+    // console.log('heree')
 
-    db.query("SELECT username FROM USER WHERE username = '"+ username +"'", function(err, result, field){
+    db.query("SELECT id, username FROM USER WHERE username = '"+ username +"'", function(err, result, field){
         if(result.length === 0){
-                
-           res.send('non-existing user');
+            
+
+           res.send(result);
+           console.log(result)
         
                //new user logic
        }else{  
            //existing user, redirect to another page 
-           
-           res.send('successful login')
+           console.log(result)
+           res.send(result)
         }
                
         })
+
+        
 // }
 })
 
