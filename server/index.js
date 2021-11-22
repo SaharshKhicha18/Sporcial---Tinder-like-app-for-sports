@@ -68,6 +68,67 @@ app.post("/register", (req, res) => {
 // }
 })
 
+app.post("/get-event", (req, res) => {
+
+
+    db.query("SELECT * FROM Event", function(err, result, field){
+        if(result.length === 0){
+                
+                res.send('no upcoming events')
+                // res.send('signed up')
+        // res.send('sign up success')
+               //new user logic
+       }else{  
+           //existing user, redirect to another page 
+           
+           res.send(result)
+           }
+        
+               
+        })
+// }
+})
+
+app.post("/add-event", (req, res) => {
+
+    
+    console.log(req.body)
+
+    db.query('INSERT INTO Event (name, sport, location, hostID, dateTime, description) VALUES (?,?,?,?,?,?)',
+                [req.body.name, req.body.sport, req.body.location, req.body.hostID, req.body.dateTime, req.body.description],
+                (err, result) => {
+                    if (err) {
+                    console.log(err)
+                    }
+                })
+
+    // const username = req.body.username
+    // const password = req.body.password;
+    // console.log('username: ', username);
+
+    // db.query("SELECT username FROM USER WHERE username = '"+ username +"'", function(err, result, field){
+    //     if(result.length === 0){
+    //             db.query('INSERT INTO User (username, password) VALUES (?,?)',
+    //             [username, password],
+    //             (err, result) => {
+    //                 if (err) {
+    //                 // console.log(err)
+    //                 }
+    //             })
+
+    //             res.send('signed up')
+    //     // res.send('sign up success')
+    //            //new user logic
+    //    }else{  
+    //        //existing user, redirect to another page 
+           
+    //        res.send('user exists')
+    //     }
+               
+        // })
+// }
+})
+
 app.post("/login", (req, res) => {
 
     const username = req.body.username
@@ -103,3 +164,8 @@ app.post("/login", (req, res) => {
 app.listen(3002, () => {
     console.log('server running');
 })
+
+// const PORT = process.env.PORT || 3002;
+// app.listen(PORT, () => {
+//     console.log(`Our app is running on port ${ PORT }`);
+// });

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {Button, Text, TextInput, ScrollView, Picker, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {Button, Text, TextInput, Alert, ScrollView, Picker, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -12,6 +13,9 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { render } from '@react-three/fiber';
 
 const Form = ({ navigation, route }) => {
+
+  const {id, name} = navigation.state.params
+
   const [allVal, setallVal] = useState([{
     eventN: null, 
     locate: "", 
@@ -19,6 +23,10 @@ const Form = ({ navigation, route }) => {
     sportT: "", 
     descript: ""
   }])
+
+  // useEffect(() => {
+  //   // console.log('Fruit', fruit);
+  // }, allVal)
 
   const [date, setDate] = useState( new Date());
   const [mode, setMode] = useState('date');
@@ -46,7 +54,77 @@ const Form = ({ navigation, route }) => {
   const showTimepicker = () => {
     showMode('time');
   };
+  // console.log('here')
+  // console.log(allVal)
+
+  const addEvent  = () => {
+    console.warn(allVal)
+
+    
+
+    // console.warn(allVal['0'].eventN)
+    if (allVal.descript && allVal.eventN && allVal.locate &&
+      allVal.dandt && allVal.sportT) {
+
+
+    axios.post('http://10.0.2.2:3002/add-event', {
+      description: allVal.descript,
+      name: allVal.eventN,
+      location: allVal.locate,
+      dateTime: allVal.dandt,
+      hostID: id,
+      sport: allVal.sportT
+
+      
+
+
+                
+            }).then((response) => {
+
+          
+                    // show SUCCESS alert
+                  
+                
+                
+            }).catch((err) => {
+               
+                console.log('error: ', err)
+            })
+
+            Alert.alert(
+              "EVENT CREATED",
+              "Please check 'My Events' in the Navigation bar to view your events",
+              [
+                  {
+                      text: "Cancel",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                  },
+                  { text: "OK", onPress: () => console.log("OK Pressed") }
+              ]
+          );
+          }
+          else{
+            Alert.alert(
+              "EVENT CREATION FAILED",
+              "Please make sure you have filled all the fields on this form",
+              [
+                  {
+                      text: "Cancel",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                  },
+                  { text: "OK", onPress: () => console.log("OK Pressed") }
+              ]
+          );
+          }
+
+        }
+
+    
+  
     return (
+      
       <View style ={styles.container}>
       <View style={styles.header}>
                 <TouchableOpacity onPress = {() => navigation.navigate('hostscreen')}>
@@ -153,7 +231,7 @@ const Form = ({ navigation, route }) => {
          >
           
          </TextInput>
-        <TouchableOpacity style = {styles.butt} onPress={() => console.log(allVal)}> 
+        <TouchableOpacity style = {styles.butt} onPress={() => addEvent()}> 
          <Text style= {styles.buttText}> Create! </Text>
         </TouchableOpacity>
         </SafeAreaView>

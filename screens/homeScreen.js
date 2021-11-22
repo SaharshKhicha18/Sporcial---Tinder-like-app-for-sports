@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {Button, Text, TextInput, View, StyleSheet, Image} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
 
 const HomeScreen = ({ navigation, route}) => {
 
@@ -22,7 +23,7 @@ const HomeScreen = ({ navigation, route}) => {
       <Button 
         title ={buttonTxt}
         onPress={() =>
-          navigation.navigate('hostscreen')
+          navigation.navigate('hostscreen', {userID: id, username: name})
         }
         color = 'red'
       />

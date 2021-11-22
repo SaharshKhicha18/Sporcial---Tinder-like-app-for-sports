@@ -5,8 +5,36 @@ import {Button, Text, TextInput, View, StyleSheet, Image, TouchableOpacity} from
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import axios from 'axios';
 
 const HostScreen = ({ navigation, route }) => {
+
+  const {userID, username} = navigation.state.params
+
+  const getEvents = () => {
+    axios.post('http://10.0.2.2:3002/get-event', {
+
+            }).then((response) => {
+
+              //EVENTS FROM DATABASE ARE STORED IN RES
+              var res = JSON.parse(JSON.stringify(response.data))
+              console.log('event 1: ')
+              console.log(res[0])
+              console.log('event 2: ')
+              console.log(res[1])
+              console.log('event 3: ')
+              console.log(res[2])
+              navigation.navigate('joinscreen', res)
+
+      
+            }).catch((err) => {
+               
+                console.log('error: ', err)
+            })
+
+            
+  }
+
     return (
       <View style ={styles.container}>
         <View style={styles.header}>
@@ -19,7 +47,7 @@ const HostScreen = ({ navigation, route }) => {
              <Button 
             title = "Host an event!"
             onPress = {()=>
-                navigation.navigate('eventform')
+                navigation.navigate('eventform', {id: userID, name: username})
             }
             color = '#FFB3B3'
             
@@ -29,7 +57,7 @@ const HostScreen = ({ navigation, route }) => {
          <Button 
             title = "Join an event!"
             onPress = {()=>
-                navigation.navigate('joinscreen')
+                getEvents()
             }
             color = '#FFB3B3'
         />

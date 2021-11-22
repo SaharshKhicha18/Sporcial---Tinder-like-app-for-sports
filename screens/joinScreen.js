@@ -5,6 +5,7 @@ import {
   SafeAreaView, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
 
 
 import Carousel from 'react-native-snap-carousel';
@@ -31,11 +32,16 @@ export default class App extends React.Component {
     require("./images/2.jpg"),
     require("./images/3.jpg"),
     require("./images/4.jpg"),
-    require("./images/5.jpg"),
+    
   ];
+
+  
 
     constructor(props){
         super(props);
+        //getting database data here
+        console.log(this.props.navigation.state.params)
+        
         this.state = {
           activeIndex:0,
           carouselItems: [
@@ -84,7 +90,23 @@ export default class App extends React.Component {
       console.log("SUCCESS");
     }
     _renderItem = ({item,index}) => {
+
+      
+
+          //   Alert.alert(
+          //     "EVENT CREATED",
+          //     "Please check 'My Events' in the Navigation bar to view your events",
+          //     [
+          //         {
+          //             text: "Cancel",
+          //             onPress: () => console.log("Cancel Pressed"),
+          //             style: "cancel"
+          //         },
+          //         { text: "OK", onPress: () => console.log("OK Pressed") }
+          //     ]
+          // );
       return (
+        
         <TouchableOpacity onPress={this.handleDoubleTap}>
         <View style={{
             backgroundColor:'#fff0f0',
