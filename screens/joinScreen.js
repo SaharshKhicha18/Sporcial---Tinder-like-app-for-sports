@@ -107,7 +107,7 @@ export default class App extends React.Component {
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
         </View>
-            <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', paddingTop: 50 }}>
+            <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', paddingTop: 25 }}>
                 <Carousel
                   layout={"default"}
                   ref={ref => this.carousel = ref}
