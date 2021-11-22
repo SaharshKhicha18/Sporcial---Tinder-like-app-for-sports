@@ -27,11 +27,11 @@ export default class App extends React.Component {
   }
   });
   IMAGES = [
-    require("./images/3.jpg"),
+    require("./images/1.jpg"),
     require("./images/2.jpg"),
+    require("./images/3.jpg"),
     require("./images/4.jpg"),
     require("./images/5.jpg"),
-    require("./images/1.jpg"),
   ];
 
     constructor(props){
@@ -40,29 +40,32 @@ export default class App extends React.Component {
           activeIndex:0,
           carouselItems: [
           {
-              title:"Item 1",
-              text: "Text 1",
+              name:"Badminton",
+              location: "Flora Ho Sports Centre",
+              DandT: "Tue Nov 30 2021 18:00:00 GMT+0800 (HKT)",
+              Des: "Need 3 people for an hour of Badminton at Flora Ho centre (preferably HKU students)",
               image: this.IMAGES[0]
           },
           {
-              title:"Item 2",
-              text: "Text 2",
+              name:"Football",
+              location: "Kowloon Tsai Park",
+              DandT: "Thu Dec 2 2021 12:00:00 GMT+0800 (HKT)",
+              Des: "14 people needed - friendly matches",
               image: this.IMAGES[1]
           },
           {
-              title:"Item 3",
-              text: "Text 3",
+              name:"Volleyball",
+              location: "Stanley Ho Sports Centre",
+              DandT: "Wed Dec 8 2021 07:30:00 GMT+0800 (HKT)",
+              Des: "Already have 6 people, need 6 more",
               image: this.IMAGES[2]
           },
           {
-              title:"Item 4",
-              text: "Text 4",
+              name:"Tennis",
+              location: "Jordan Valley Tennis Court",
+              DandT: "Sat Dec 11 2021 10:00:00 GMT+0800 (HKT)",
+              Des: "Tennis tournament! Players, Referees etc. needed",
               image: this.IMAGES[3]
-          },
-          {
-              title:"Item 5",
-              text: "Text 5",
-              image: this.IMAGES[4]
           },
         ]
       }
@@ -89,10 +92,15 @@ export default class App extends React.Component {
             height: hp('80%'),
             marginLeft: 25,
             marginRight: 25}}>
-              <Image style={{ width: '100%', height: '70%' }}
+              <Image style={{ width: '100%', height: '60%' }}
               source={item.image}/>
-          <Text style={{fontSize: 30, color: 'black'}}>{item.title}</Text>
-          <Text style={{color:'black'}}>{item.text}</Text>
+          <Text style={{fontSize: 25, color: 'black', padding: 12}}>{item.name}</Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Location: </Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.location}</Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Date and Time: </Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.DandT}</Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Description:</Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.Des}</Text>
         </View>
         </TouchableOpacity>
       )
