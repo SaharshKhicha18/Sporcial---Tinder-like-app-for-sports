@@ -112,8 +112,10 @@ const styles = StyleSheet.create({
         backgroundColor: "peachpuff",
         // top: 10,
         // paddingTop: 10
+        paddingLeft: 20,
         height: hp('7%'),
-        width: wp('50%')
+        width: wp('70%'),
+        borderRadius: hp('3%')
 
     },
 
