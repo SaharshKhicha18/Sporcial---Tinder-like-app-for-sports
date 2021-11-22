@@ -12,16 +12,26 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { render } from '@react-three/fiber';
 
 const Form = ({ navigation, route }) => {
+  const [allVal, setallVal] = useState([{
+    eventN: null, 
+    locate: "", 
+    dandt: "", 
+    sportT: "", 
+    descript: ""
+  }])
+
   const [date, setDate] = useState( new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
   const [selectedValue, setSelectedValue] = useState("");
+  const [sp, setSP] = useState("");
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate;
     setShow(Platform.OS === 'ios');
-    setDate(currentDate);
+    setDate(currentDate)
+    setallVal({...allVal, dandt: (currentDate.toString()) })
   };
 
   const showMode = (currentMode) => {
@@ -52,30 +62,41 @@ const Form = ({ navigation, route }) => {
          </Text>
          <TextInput style={styles.input}
          placeholder= "Event Name"
-         >
-         </TextInput>
+         onChangeText={(text) => setallVal({ ...allVal, eventN: text })}
+         />
 
-         <View>
-           <Picker
-             selectedValue = {selectedValue}
-             onValueChange= {(itemValue, itemIndex) => setSelectedValue(itemValue)}
-             >
-              <Picker.Item label="Pokfield Road Playground" value="prp" />
-              <Picker.Item label="Causeway Bay Playground" value="cbp" />
-           </Picker>
-         </View>
+         
          <Text style={styles.normText}>
            Location
          </Text >
          <TextInput style={styles.input} 
-         placeholder= "Location"
+         placeholder= "Location" 
+         onChangeText={(text) => setallVal({ ...allVal, locate: text })}
          >
+           {selectedValue}
          </TextInput>
+         <View>
+           <Picker
+             selectedValue = {selectedValue}
+             onValueChange= {(itemValue) => setallVal({...allVal, locate: itemValue}, setSelectedValue(itemValue))}
+             >
+              <Picker.Item label="" value="" />
+              <Picker.Item label="Flora Ho Sports Centre" value="Flora Ho Sports Centre" />
+              <Picker.Item label="Kowloon Tsai Park" value="Kowloon Tsai Park" />
+              <Picker.Item label="Stanley Ho Sports Centre" value="Stanley Ho Sports Centre" />
+              <Picker.Item label="Jordan Valley Tennis Court" value="Jordan Valley Tennis Court" />
+           </Picker>
+         </View>
          
          <Text style = {styles.normText}>
            Date and Time
          </Text>
-         <TextInput style={styles.input}> {date.toString()} </TextInput>
+         <TextInput 
+         style={styles.input}
+         onChangeText={(text) => setallVal({...allVal, dandt: text })}
+         > 
+         {date.toString()}
+         </TextInput>
 
 
         <View>
@@ -106,27 +127,33 @@ const Form = ({ navigation, route }) => {
          </Text>
          <TextInput style={styles.input}
          placeholder= "Sport Type"
+         onChangeText={(text) => setallVal({ ...allVal, sportT: text })}
          >
-          
+          {sp}
          </TextInput>
 
          <View>
            <Picker
-             selectedValue = {selectedValue}
-             onValueChange= {(itemValue, itemIndex) => setSelectedValue(itemValue)}
+             sp = {sp}
+             onValueChange= {(itemValue) => setallVal({...allVal, sportT: itemValue}, setSP(itemValue))}
              >
-              <Picker.Item label="Football" value="prp" />
-              <Picker.Item label="Basketball" value="cbp" />
+              <Picker.Item label="Football" value="Football" />
+              <Picker.Item label="Basketball" value="Basketball" />
+              <Picker.Item label="Tennis" value="Tennis" />
+              <Picker.Item label="VolleyBall" value="Volleyball" />
            </Picker>
          </View>
 
          <Text style = {styles.normText}>
            Description
          </Text>
-         <TextInput style={styles.desc}>
+         <TextInput 
+         style={styles.desc}
+         onChangeText={(text) => setallVal({ ...allVal, descript: text })}
+         >
           
          </TextInput>
-        <TouchableOpacity style = {styles.butt}> 
+        <TouchableOpacity style = {styles.butt} onPress={() => console.log(allVal)}> 
          <Text style= {styles.buttText}> Create! </Text>
         </TouchableOpacity>
         </SafeAreaView>
