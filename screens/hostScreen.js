@@ -24,7 +24,7 @@ const HostScreen = ({ navigation, route }) => {
               console.log(res[1])
               console.log('event 3: ')
               console.log(res[2])
-              navigation.navigate('joinscreen', res)
+              navigation.navigate('joinscreen',{res: res, userId: userID})
 
       
             }).catch((err) => {

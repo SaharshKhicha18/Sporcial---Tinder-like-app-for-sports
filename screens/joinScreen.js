@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   Text,
   View,
+  Alert,
   SafeAreaView, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -40,11 +41,18 @@ export default class App extends React.Component {
     constructor(props){
         super(props);
         //getting database data here
-        console.log(this.props.navigation.state.params)
+     
+        
         
         this.state = {
           activeIndex:0,
-          carouselItems: [
+          //all events are here
+          allEvents: this.props.navigation.state.params.res,
+
+          userid: this.props.navigation.state.params.userId,
+          
+          carouselItems: 
+          [
           {
               name:"Badminton",
               location: "Flora Ho Sports Centre",
@@ -76,22 +84,54 @@ export default class App extends React.Component {
         ]
       }
     }
-    handleDoubleTap=()=>{
+    handleDoubleTap=(hostID, eventID, pID)=>{
       const now = Date.now();
       const DOUBLE_PRESS_DELAY = 300;
       if (this.lastTap && (now - this.lastTap) < DOUBLE_PRESS_DELAY) {
         this.lastTap = null;
-        this.log();
+        if (hostID === this.state.userid) {
+          
+          Alert.alert(
+                "Event Registeration Failure",
+                "You are the host of this event, so you cannot join this one.",
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ]
+            );
+        }
+        else{
+          //make sure to save participant in event somehow
+          //then show joined events and WE ARE DONE
+
+          //send userid, event id to add to database
+          //add userid to participant id in string
+          console.log(pID + this.state.userid)
+
+          axios.post('http://10.0.2.2:3002/add-participants', {
+                participantID: pID + this.state.userid,
+                eventID: eventID,
+            }).then((response) => {
+
+                var res = JSON.parse(JSON.stringify(response.data))
+
+            }).catch((err) => {
+                console.log('error: ', err)
+            })
+
+          this.log();
+        }
+        
+
       } else {
         this.lastTap = now;
       }
     }
     log(){
+      
       console.log("SUCCESS");
     }
     _renderItem = ({item,index}) => {
 
-      
 
           //   Alert.alert(
           //     "EVENT CREATED",
@@ -105,9 +145,10 @@ export default class App extends React.Component {
           //         { text: "OK", onPress: () => console.log("OK Pressed") }
           //     ]
           // );
+      
       return (
         
-        <TouchableOpacity onPress={this.handleDoubleTap}>
+        <TouchableOpacity onPress={() => this.handleDoubleTap(item.hostID, item.eventID, item.participantIDs)}>
         <View style={{
             backgroundColor:'#fff0f0',
             borderRadius: 5,
@@ -125,7 +166,9 @@ export default class App extends React.Component {
           <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.Des}</Text>
         </View>
         </TouchableOpacity>
+        
       )
+        
   }
 
     render() {
@@ -136,11 +179,14 @@ export default class App extends React.Component {
                 <Icon name= 'arrow-left' style = {this.styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
+                <TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}><Text>Go to My Events</Text></TouchableOpacity>
+                
         </View>
             <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', paddingTop: 25 }}>
                 <Carousel
                   layout={"default"}
                   ref={ref => this.carousel = ref}
+                  // data={this.state.allEvents}
                   data={this.state.carouselItems}
                   sliderWidth={200}
                   itemWidth={410}

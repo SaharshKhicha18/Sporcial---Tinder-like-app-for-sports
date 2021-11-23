@@ -73,12 +73,9 @@ const Form = ({ navigation, route }) => {
       location: allVal.locate,
       dateTime: allVal.dandt,
       hostID: id,
-      sport: allVal.sportT
+      sport: allVal.sportT,
+      participantIDs: id
 
-      
-
-
-                
             }).then((response) => {
 
           

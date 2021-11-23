@@ -94,8 +94,8 @@ app.post("/add-event", (req, res) => {
     
     console.log(req.body)
 
-    db.query('INSERT INTO Event (name, sport, location, hostID, dateTime, description) VALUES (?,?,?,?,?,?)',
-                [req.body.name, req.body.sport, req.body.location, req.body.hostID, req.body.dateTime, req.body.description],
+    db.query('INSERT INTO Event (name, sport, location, dateTime, description, hostID, participantIDs) VALUES (?,?,?,?,?,?,?)',
+                [req.body.name, req.body.sport, req.body.location, req.body.dateTime, req.body.description, req.body.hostID, req.body.participantIDs],
                 (err, result) => {
                     if (err) {
                     console.log(err)
@@ -129,6 +129,20 @@ app.post("/add-event", (req, res) => {
 // }
 })
 
+app.post("/add-participants", (req, res) => {
+
+    
+    console.log(req.body)
+
+    db.query("UPDATE EVENT E SET E.participantIDs = '"+ req.body.participantID +"' WHERE E.eventID = '"+ req.body.eventID +"' ",
+                (err, result) => {
+                    if (err) {
+                    console.log(err)
+                    }
+                })
+
+            })
+
 app.post("/login", (req, res) => {
 
     const username = req.body.username
@@ -148,6 +162,32 @@ app.post("/login", (req, res) => {
        }else{  
            //existing user, redirect to another page 
            console.log(result)
+           res.send(result)
+        }
+               
+        })
+
+        
+// }
+})
+
+app.post("/show-hostevents", (req, res) => {
+
+    const userID = req.body.userID
+    console.log(userID)
+
+  
+    db.query("SELECT E.name, E.sport, E.location, E.dateTime, E.description FROM EVENT E, USER U WHERE E.hostID='"+ userID +"'", function(err, result, field){
+        if(result.length === 0){
+            
+
+           res.send('no');
+        
+        
+               //new user logic
+       }else{  
+           //existing user, redirect to another page 
+           
            res.send(result)
         }
                

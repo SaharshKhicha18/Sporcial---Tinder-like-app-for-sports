@@ -7,6 +7,7 @@ import JoinScreen from './screens/joinScreen';
 import Form from './screens/eventForm';
 import HostScreen from './screens/hostScreen';
 import GroupChat from './screens/groupChat';
+import MyEvents from './screens/myEvents';
 
 
 
@@ -18,7 +19,8 @@ const NavStack = createStackNavigator({
     joinscreen: JoinScreen,
     eventform: Form,
     hostscreen: HostScreen,
-    chat: GroupChat
+    chat: GroupChat,
+    myevents: MyEvents
 },
 {
     headerMode: 'none',
