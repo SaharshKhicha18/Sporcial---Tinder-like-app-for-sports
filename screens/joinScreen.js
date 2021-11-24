@@ -5,15 +5,15 @@ import {
   Alert,
   SafeAreaView, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
-
-
 import Carousel from 'react-native-snap-carousel';
 
 
 export default class App extends React.Component {
   lastTap = null;
+  visible = false;
   styles = StyleSheet.create({
     header: {
       backgroundColor: 'red',
@@ -36,7 +36,12 @@ export default class App extends React.Component {
     
   ];
 
-  
+  openMenu = () => {
+    this.setState.visible = true;
+  }
+  closeMenu = () => {
+    this.setState.visible = false;
+  }
 
     constructor(props){
         super(props);
@@ -180,7 +185,26 @@ export default class App extends React.Component {
                 <Icon name= 'arrow-left' style = {this.styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
-                <TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}><Text>Go to My Events</Text></TouchableOpacity>
+                <TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}>
+                  <Icon name = 'bars' style = {this.styles.arrow}/></TouchableOpacity>
+                <Provider>
+                  <View
+                    style={{
+                      paddingTop: 50,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    }}>
+                    <Menu
+                      visible={this.visible}
+                      onDismiss={this.setState.visible = !this.setState.visible}
+                      anchor={<TouchableOpacity onPress = {this.setState.visible = !this.setState.visible} >
+                      <Icon name= 'bars' style = {this.styles.arrow}/>
+                      </TouchableOpacity>}>
+                      <Menu.Item onPress={() => {}} title="My Events"/>
+                      <Menu.Item onPress={() => {}} title="Log Out"/>
+                    </Menu>
+                  </View>
+                </Provider> 
                 
         </View>
             <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', 
