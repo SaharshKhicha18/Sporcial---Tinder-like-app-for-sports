@@ -110,7 +110,7 @@ const MyEvents = ({navigation, route}) => {
 
                             if (i.hostID == userId) {
                             return(
-                                <View style = {{backgroundColor: 'pink', borderBottomWidth: 1, borderBottomColor: 'white', marginBottom: hp('2%')}}>
+                                <View style = {style.event_box}>
                                     <Text>Event Name: {i.name}</Text>
                                     <Text>Sport: {i.sport}</Text>
                                     <Text>Location: {i.location}</Text>
@@ -131,7 +131,7 @@ const MyEvents = ({navigation, route}) => {
                             for (let x = 0; x < ids.length; x++) {
                                  if (parseInt(ids[x]) === userId) {
                                     return(
-                                        <View style = {{backgroundColor: 'pink', borderBottomWidth: 1, borderBottomColor: 'white', marginBottom: hp('2%')}}>
+                                        <View style = {styles.event_box}>
                                             <Text>Event Name: {i.name}</Text>
                                             <Text>Sport: {i.sport}</Text>
                                             <Text>Location: {i.location}</Text>
@@ -177,6 +177,17 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: hp('4%'),
         marginHorizontal: wp('3%')
+    },
+
+    event_box: {
+        backgroundColor: 'pink',
+        borderBottomWidth: 1,
+        borderBottomColor: 'white',
+        marginBottom: hp('2%'),
+        width: wp('90%'),
+        marginLeft: wp('5%'),
+        borderRadius: wp('3%'),
+        padding: 15,
     },
 
 
