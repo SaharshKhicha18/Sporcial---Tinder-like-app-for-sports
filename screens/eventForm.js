@@ -11,7 +11,7 @@ import { color } from 'react-native-reanimated';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { render } from '@react-three/fiber';
-import { Button, Menu, Divider, Provider } from 'react-native-paper';
+import { Menu, Divider, Provider } from 'react-native-paper';
 
 const Form = ({ navigation, route }) => {
 

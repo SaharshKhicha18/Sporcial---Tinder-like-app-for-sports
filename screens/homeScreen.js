@@ -11,12 +11,8 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const HomeScreen = ({ navigation, route}) => {
 
-
-
-  
   const {id, name} = navigation.state.params
 
-  
   // console.warn(id)
   // console.warn(name)
   console.warn(name)
@@ -30,7 +26,7 @@ const HomeScreen = ({ navigation, route}) => {
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
         </View>
-        <Text> {{buttonTxt}} </Text>
+        <Text> {buttonTxt} </Text>
         <SafeAreaView >
         <TouchableOpacity
          onPress = {()=>

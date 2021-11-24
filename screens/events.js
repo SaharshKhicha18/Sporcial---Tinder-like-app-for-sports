@@ -5,11 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Events = ({ navigation}) => {
   
-  let buttonTxt = 'Welcome to Sportial, ';
+  // let buttonTxt = 'Welcome to Sportial, ';
    
     return (
       <Button 
-        title ={buttonTxt}
+        title ={'Welcome'}
         onPress={() =>
           console.log("YES")
         }

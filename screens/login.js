@@ -195,8 +195,8 @@ const styles = StyleSheet.create({
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 4,
         marginLeft: hp('20%'),
-        marginTop: 0,
-        marginBottom: hp('1%'),
+        marginTop: -hp('2%'),
+        marginBottom: hp('10%'),
         alignSelf: 'center',
         fontWeight: 'bold'
     },
@@ -240,7 +240,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontWeight: 'bold',
         marginTop: hp('2%'),
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        marginBottom: hp('20%')
 
 
     }

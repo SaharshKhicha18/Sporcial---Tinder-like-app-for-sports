@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import axios from 'axios';
-import { Button, Menu, Divider, Provider } from 'react-native-paper';
+import {Menu, Divider, Provider } from 'react-native-paper';
 
 const HostScreen = ({ navigation, route }) => {
 

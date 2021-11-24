@@ -192,7 +192,7 @@ export default class App extends React.Component {
                 <Icon name= 'arrow-left' style = {this.styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
-                //<TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}>
+                {/* <TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}> */}
                 <TouchableOpacity onPress = {this.openMenu} style = {{marginLeft: wp('10%')}}>
                   <Icon name = 'bars' style = {this.styles.arrow}/></TouchableOpacity>
                 <Provider>
