@@ -174,7 +174,11 @@ const styles = StyleSheet.create({
     sporcial_txt: {
         fontSize: 35,
         fontWeight: 'bold',
+        fontStyle: 'italic',
         color: 'red',
+        textShadowColor: 'black', 
+        textShadowOffset: { width: -1, height: 0 },
+        textShadowRadius: 3,
         alignSelf: 'center',
         marginTop: hp('38%'),
         fontWeight: 'bold'
