@@ -156,7 +156,7 @@ export default class App extends React.Component {
             //marginLeft: wp('5%'),
             //marginRight: wp('5%')
 }}>
-              <Image style={{ width: '100%', height: '50%' }}
+              <Image style={{ width: '100%', height: '45%' }}
               source={item.image}/>
           <Text style={{fontSize: 25, color: 'black', padding: 12}}>{item.name}</Text>
           <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Location: </Text>
