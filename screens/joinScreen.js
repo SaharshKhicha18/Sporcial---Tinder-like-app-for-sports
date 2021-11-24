@@ -36,11 +36,18 @@ export default class App extends React.Component {
     
   ];
 
-  openMenu = () => {
-    this.setState.visible = true;
+ openMenu = () => {
+    this.setState({
+      visible:  true});
   }
   closeMenu = () => {
-    this.setState.visible = false;
+    if (this.state.visible){
+      this.setState({
+        visible: false});
+      }
+      else {
+        return;
+      }
   }
 
     constructor(props){
@@ -185,7 +192,8 @@ export default class App extends React.Component {
                 <Icon name= 'arrow-left' style = {this.styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
-                <TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}>
+                //<TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}>
+                <TouchableOpacity onPress = {this.openMenu} style = {{marginLeft: wp('10%')}}>
                   <Icon name = 'bars' style = {this.styles.arrow}/></TouchableOpacity>
                 <Provider>
                   <View
@@ -193,18 +201,20 @@ export default class App extends React.Component {
                       paddingTop: 50,
                       flexDirection: 'row',
                       justifyContent: 'center',
+                      position: 'relative',
+                      
                     }}>
-                    <Menu
-                      visible={this.visible}
-                      onDismiss={this.setState.visible = !this.setState.visible}
+                    <Menu 
+                      visible={this.state.visible}
+                      onDismiss={this.closeMenu}
                       anchor={<TouchableOpacity onPress = {this.setState.visible = !this.setState.visible} >
                       <Icon name= 'bars' style = {this.styles.arrow}/>
                       </TouchableOpacity>}>
-                      <Menu.Item onPress={() => {}} title="My Events"/>
-                      <Menu.Item onPress={() => {}} title="Log Out"/>
+                      <Menu.Item  onPress={() => {}} title="My Events" />
+                      <Menu.Item  onPress={() => {}} title="Log Out" />
                     </Menu>
                   </View>
-                </Provider> 
+                  </Provider>
                 
         </View>
             <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', 
