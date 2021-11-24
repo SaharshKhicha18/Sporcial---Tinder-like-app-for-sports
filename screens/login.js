@@ -132,7 +132,9 @@ const Login = ({ navigation }) => {
                 <Text style={styles.sporcial_txt}>
                     Sporcial
                 </Text>
-
+                <Text style={styles.bttgt}>
+                    Better Together
+                </Text>
 
                 <View style={styles.formRow}>
                     <TextInput value={username} onChangeText={(value) => setUsername(value)} style={styles.textInput} placeholder='Enter username'
@@ -181,8 +183,22 @@ const styles = StyleSheet.create({
         textShadowRadius: 12,
         alignSelf: 'center',
         marginTop: hp('38%'),
+        marginBottom: 0,
         fontWeight: 'bold'
-
+      },
+    bttgt: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        color: 'red',
+        textShadowColor: '#3F3F3F', 
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 4,
+        marginLeft: hp('20%'),
+        marginTop: 0,
+        marginBottom: hp('1%'),
+        alignSelf: 'center',
+        fontWeight: 'bold'
     },
     textInput: {
         backgroundColor: "#ddd",
