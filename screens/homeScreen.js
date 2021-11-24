@@ -1,23 +1,20 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {Button, Text, TextInput, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
-const HomeScreen = ({ navigation, route}) => {
+const HomeScreen = ({ navigation, route }) => {
 
   const {id, name} = navigation.state.params
 
   // console.warn(id)
   // console.warn(name)
-  console.warn(name)
-  let buttonTxt = 'Welcome to Sporcial, ' + name;
-   
+  //console.warn(name)
+
     return (
       <View style ={styles.container}>
         <View style={styles.header}>
@@ -26,7 +23,7 @@ const HomeScreen = ({ navigation, route}) => {
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
         </View>
-        <Text> {buttonTxt} </Text>
+        <Text style={styles.bigT}> Welcome To Sporcial, {name} </Text> 
         <SafeAreaView >
         <TouchableOpacity
          onPress = {()=>
@@ -71,8 +68,8 @@ const HomeScreen = ({ navigation, route}) => {
   },
   imagestyle: {
     justifyContent: 'center',
-    height: 200,
-    width: 200
+    height: 250,
+    width: 300
   },
   arrow: {
     color: 'white',
@@ -86,6 +83,14 @@ const HomeScreen = ({ navigation, route}) => {
     flexDirection: 'row',
     alignItems: 'center'
 },
+bigT: {
+    textAlign: 'center',
+    textShadowRadius: 5,
+    color: 'red',
+    fontStyle: 'italic',
+    fontSize: 40,
+    fontWeight: 'bold',
+    marginBottom: 40
+}
   });
-
   export default HomeScreen;
