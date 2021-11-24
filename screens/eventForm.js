@@ -22,7 +22,8 @@ const Form = ({ navigation, route }) => {
     locate: "", 
     dandt: "", 
     sportT: "", 
-    descript: ""
+    descript: "",
+    contact:"",
   }])
 
   // useEffect(() => {
@@ -37,7 +38,7 @@ const Form = ({ navigation, route }) => {
   const [sp, setSP] = useState("");
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate)
     setallVal({...allVal, dandt: (currentDate.toString()) })
@@ -193,26 +194,29 @@ const Form = ({ navigation, route }) => {
          <TextInput 
          style={styles.input}
          onChangeText={(text) => setallVal({...allVal, dandt: text })}
-         > 
-         {date.toString()}
+          placeholder = "Select Date and Time"
+           > 
+         {allVal.dandt}
          </TextInput>
 
-
+<View>
         <View>
-        <View>
-        <Button onPress={showDatepicker} title="Show date picker!" color='red'/>
-        </View>
-        <View>
-        <Button onPress={showTimepicker} title="Show time picker!" color='red' />
+          <View style={styles.row}>
+        <TouchableOpacity onPress={showDatepicker}> 
+          <Image source={require('./images/dateIcon.png')} style = {styles.icon1}  />
+        </TouchableOpacity>
+        <View style = {styles.break}></View>
+        <TouchableOpacity style = {styles.icons} onPress={showTimepicker}> 
+          <Image source={require('./images/timeIcon.png')} style = {styles.icon2}  />
+        </TouchableOpacity>
       </View>
-      <View>
       {show && (
         <DateTimePicker
           testID="dateTimePicker"
           value={date}
           mode={mode}
           is24Hour={true}
-          display="default"
+          display="spinner"
           onChange={onChange}
         />
       )}
@@ -236,12 +240,22 @@ const Form = ({ navigation, route }) => {
              sp = {sp}
              onValueChange= {(itemValue) => setallVal({...allVal, sportT: itemValue}, setSP(itemValue))}
              >
+               <Picker.Item color='grey' label="Some Popular Sports" value= ""/>
               <Picker.Item label="Football" value="Football" />
               <Picker.Item label="Basketball" value="Basketball" />
               <Picker.Item label="Tennis" value="Tennis" />
               <Picker.Item label="VolleyBall" value="Volleyball" />
            </Picker>
          </View>
+
+        <Text style = {styles.normText}>
+           Contact Number 
+         </Text>
+         <TextInput 
+         style={styles.input}
+         onChangeText={(text) => setallVal({ ...allVal, contact: text })}
+         >
+          </TextInput>
 
          <Text style = {styles.normText}>
            Description
@@ -333,6 +347,31 @@ const Form = ({ navigation, route }) => {
     flexDirection: 'row',
     alignItems: 'center'
 },
+    icon1: {
+  width:50,
+  height: 50,
+      marginTop: 10,
+      marginBottom: 20,
+      justifyContent: 'center',
+      alignSelf: 'center',
+      padding: 15
+},
+icon2: {
+  width:53,
+  height: 52,
+      marginTop: 10,
+      marginBottom: 20,
+      justifyContent: 'center',
+      alignSelf: 'center',
+      padding: 15
+},
+row:{
+  flexDirection: 'row',
+  alignSelf: 'center'
+},
+break: {
+  paddingHorizontal: 10
+}
   });
 
   export default Form;
