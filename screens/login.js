@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     sporcial_txt: {
-        fontSize: 35,
+        fontSize: 40,
         fontWeight: 'bold',
         fontStyle: 'italic',
         color: 'red',
