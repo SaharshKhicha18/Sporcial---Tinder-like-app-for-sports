@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationContainer } from '@react-navigation/native';
+import { Button, Menu, Divider, Provider } from 'react-native-paper';
 
 const MyEvents = ({navigation, route}) => {
 
@@ -53,6 +54,9 @@ const MyEvents = ({navigation, route}) => {
 
     }
 
+    const [visible, setVisible] = React.useState(false);
+    const openMenu = () => setVisible(true);
+    const closeMenu = () => setVisible(false);
 
     return(
         <View style={styles.container}>
@@ -61,9 +65,27 @@ const MyEvents = ({navigation, route}) => {
                 <Icon name= 'arrow-left' style = {styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
-                <View style = {{marginLeft: wp('10%')}}>
-                    <Text style = {{color: 'white', fontSize: hp('3%')}}>MY EVENTS</Text>
-                </View>
+                <TouchableOpacity onPress = {openMenu} style = {{marginLeft: 260}}>
+                <Icon name= 'bars' style = {styles.arrow}/>
+                </TouchableOpacity>
+                <Provider>
+                  <View
+                    style={{
+                      paddingTop: 50,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    }}>
+                    <Menu
+                      visible={visible}
+                      onDismiss={closeMenu}
+                      anchor={<TouchableOpacity onPress = {openMenu} >
+                      <Icon name= 'bars' style = {styles.arrow}/>
+                      </TouchableOpacity>}>
+                      <Menu.Item onPress={() => {}} title="My Events" />
+                      <Menu.Item onPress={() => {}} title="Log Out" />
+                    </Menu>
+                  </View>
+                </Provider> 
             </View>
             <View style = {{flexDirection: 'row', flex: 1}}>
                 <TouchableOpacity  onPress = {() => setEventBtn('join')}style = {[styles.event_btns, {borderRightWidth: 1, borderRightColor: 'white'}]}>

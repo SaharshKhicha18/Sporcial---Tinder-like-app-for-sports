@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import axios from 'axios';
+import { Button, Menu, Divider, Provider } from 'react-native-paper';
 
 const HostScreen = ({ navigation, route }) => {
 
@@ -35,6 +36,10 @@ const HostScreen = ({ navigation, route }) => {
             
   }
 
+  const [visible, setVisible] = React.useState(false);
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
+
     return (
       <View style ={styles.container}>
         <View style={styles.header}>
@@ -42,6 +47,27 @@ const HostScreen = ({ navigation, route }) => {
                 <Icon name= 'arrow-left' style = {styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
+                <TouchableOpacity onPress = {openMenu} style = {{marginLeft: 260}}>
+                <Icon name= 'bars' style = {styles.arrow}/>
+                </TouchableOpacity>
+                <Provider>
+                  <View
+                    style={{
+                      paddingTop: 50,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    }}>
+                    <Menu
+                      visible={visible}
+                      onDismiss={closeMenu}
+                      anchor={<TouchableOpacity onPress = {openMenu} >
+                      <Icon name= 'bars' style = {styles.arrow}/>
+                      </TouchableOpacity>}>
+                      <Menu.Item onPress={() => {}} title="My Events" />
+                      <Menu.Item onPress={() => {}} title="Log Out" />
+                    </Menu>
+                  </View>
+                </Provider> 
         </View>
         <SafeAreaView style = {styles.butt}>
              <Button 

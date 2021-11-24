@@ -17,7 +17,7 @@ const HomeScreen = ({ navigation, route}) => {
   // console.warn(id)
   // console.warn(name)
   console.warn(name)
-  let buttonTxt = 'Welcome to Sportial, ' + name;
+  let buttonTxt = 'Welcome to Sporcial, ' + name;
    
     return (
       <Button 

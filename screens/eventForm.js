@@ -11,6 +11,7 @@ import { color } from 'react-native-reanimated';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { render } from '@react-three/fiber';
+import { Button, Menu, Divider, Provider } from 'react-native-paper';
 
 const Form = ({ navigation, route }) => {
 
@@ -118,7 +119,9 @@ const Form = ({ navigation, route }) => {
 
         }
 
-    
+    const [visible, setVisible] = React.useState(false);
+    const openMenu = () => setVisible(true);
+    const closeMenu = () => setVisible(false);
   
     return (
       
@@ -128,6 +131,27 @@ const Form = ({ navigation, route }) => {
                 <Icon name= 'arrow-left' style = {styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
+                <TouchableOpacity onPress = {openMenu} style = {{marginLeft: 260}}>
+                <Icon name= 'bars' style = {styles.arrow}/>
+                </TouchableOpacity>
+                <Provider>
+                  <View
+                    style={{
+                      paddingTop: 50,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    }}>
+                    <Menu
+                      visible={visible}
+                      onDismiss={closeMenu}
+                      anchor={<TouchableOpacity onPress = {openMenu} >
+                      <Icon name= 'bars' style = {styles.arrow}/>
+                      </TouchableOpacity>}>
+                      <Menu.Item onPress={() => {}} title="My Events" />
+                      <Menu.Item onPress={() => {}} title="Log Out" />
+                    </Menu>
+                  </View>
+                </Provider> 
       </View>
       <ScrollView>
         <SafeAreaView>
