@@ -152,10 +152,11 @@ export default class App extends React.Component {
         <View style={{
             backgroundColor:'#fff0f0',
             borderRadius: 5,
-            height: hp('80%'),
-            marginLeft: 25,
-            marginRight: 25}}>
-              <Image style={{ width: '100%', height: '60%' }}
+            height: hp('100%'),
+            //marginLeft: wp('5%'),
+            //marginRight: wp('5%')
+}}>
+              <Image style={{ width: '100%', height: '50%' }}
               source={item.image}/>
           <Text style={{fontSize: 25, color: 'black', padding: 12}}>{item.name}</Text>
           <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Location: </Text>
@@ -182,14 +183,16 @@ export default class App extends React.Component {
                 <TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}><Text>Go to My Events</Text></TouchableOpacity>
                 
         </View>
-            <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', paddingTop: 25 }}>
+            <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', 
+                         //paddingTop: hp('3%'), paddingBottom: hp('3%')  
+                        }}>
                 <Carousel
                   layout={"default"}
                   ref={ref => this.carousel = ref}
                   // data={this.state.allEvents}
                   data={this.state.carouselItems}
                   sliderWidth={200}
-                  itemWidth={410}
+                  itemWidth={wp('100%')}
                   renderItem={this._renderItem}
                   onSnapToItem = { index => this.setState({activeIndex:index}) } />
             </View>
