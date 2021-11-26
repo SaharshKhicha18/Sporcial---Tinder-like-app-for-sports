@@ -10,7 +10,7 @@ import {Menu, Divider, Provider } from 'react-native-paper';
 
 const HostScreen = ({ navigation, route }) => {
 
-  const {userID, username} = navigation.state.params
+  // const {userID, username} = navigation.state.params
 
   const getEvents = () => {
     axios.post('http://10.0.2.2:3002/get-event', {

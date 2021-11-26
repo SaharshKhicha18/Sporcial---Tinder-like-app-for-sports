@@ -1,33 +1,72 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {Button, Text, TextInput, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {Button, Provider, Menu, ScrollView, Text, TextInput, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import axios from 'axios';
 
 const HomeScreen = ({ navigation, route }) => {
 
   const {id, name} = navigation.state.params
+
+  const getEvents = () => {
+
+    axios.post('http://10.0.2.2:3002/get-event', {
+
+            }).then((response) => {
+
+              //EVENTS FROM DATABASE ARE STORED IN RES
+              var res = JSON.parse(JSON.stringify(response.data))
+              console.log('event 1: ')
+              console.log(res[0])
+              console.log('event 2: ')
+              console.log(res[1])
+              console.log('event 3: ')
+              console.log(res[2])
+              navigation.navigate('joinscreen',{res: res, id: id})
+
+      
+            }).catch((err) => {
+               
+                console.log('error: ', err)
+            })
+  }
 
   // console.warn(id)
   // console.warn(name)
   //console.warn(name)
 
     return (
-      <View style ={styles.container}>
+      <ScrollView contentContainerStyle ={{alignItems: 'center'}} >
         <View style={styles.header}>
                 <TouchableOpacity onPress = {() => navigation.navigate('loginScreen')}>
                 <Icon name= 'arrow-left' style = {styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
+                <Icon name= 'bars' style = {styles.menu}/>
+                {/* <Provider>
+                  <View>
+                    <Menu 
+                    style = {{marginLeft: wp('23%')}}
+                      visible={this.state.visible}
+                      onDismiss={this.closeMenu}
+                      anchor={<TouchableOpacity onPress = {this.openMenu} >
+                      <Icon name= 'bars' style = {this.styles.menu}/>
+                      </TouchableOpacity>}>
+                      <Menu.Item  onPress={() => {this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})}} title="My Events" />
+                      <Menu.Item  onPress={() => {this.props.navigation.navigate('homescreen')}} title="Log Out" />
+                    </Menu>
+                  </View>
+                  </Provider> */}
         </View>
         <Text style={styles.bigT}> Welcome To Sporcial, {name} </Text> 
-        <SafeAreaView >
+        <SafeAreaView style = {{marginBottom: hp('3%')}} >
         <TouchableOpacity
          onPress = {()=>
-          navigation.navigate('eventform')
+          navigation.navigate('eventform', {id: id, name: name})
       }
          >
             <Image style={styles.imagestyle}
@@ -40,7 +79,8 @@ const HomeScreen = ({ navigation, route }) => {
         <SafeAreaView >
          <TouchableOpacity
          onPress = {()=>
-          navigation.navigate('joinscreen')
+          // navigation.navigate('joinscreen')
+          getEvents()
       }
          >
             <Image style={styles.imagestyle}
@@ -48,7 +88,7 @@ const HomeScreen = ({ navigation, route }) => {
                
         </TouchableOpacity>
         </SafeAreaView>
-      </View>
+      </ScrollView>
     );
   };
 
@@ -68,8 +108,8 @@ const HomeScreen = ({ navigation, route }) => {
   },
   imagestyle: {
     justifyContent: 'center',
-    height: 250,
-    width: 300
+    height: 200,
+    width: 200
   },
   arrow: {
     color: 'white',
@@ -88,9 +128,14 @@ bigT: {
     textShadowRadius: 5,
     color: 'red',
     fontStyle: 'italic',
-    fontSize: 40,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 40
+},
+menu : {
+  color: 'white',
+  fontSize: hp('4%'),
+  marginLeft: wp('60%')
 }
   });
   export default HomeScreen;

@@ -3,7 +3,7 @@ import {
   Text,
   View,
   Alert,
-  SafeAreaView, TouchableOpacity, Image, StyleSheet } from 'react-native';
+  SafeAreaView, TouchableOpacity, Image, StyleSheet, Linking } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,10 +22,18 @@ export default class App extends React.Component {
       flexDirection: 'row',
       alignItems: 'center'
   },
+  carousel : {
+    flex: 1, flexDirection:'row', justifyContent: 'center'
+  },
   arrow: {
       color: 'white',
       fontSize: hp('4%'),
       marginHorizontal: wp('3%')
+  },
+  menu : {
+    color: 'white',
+    fontSize: hp('4%'),
+    marginLeft: wp('60%')
   }
   });
   IMAGES = [
@@ -50,6 +58,81 @@ export default class App extends React.Component {
       }
   }
 
+  getEvents = () => {
+
+    console.warn('hi')
+
+    axios.post('http://10.0.2.2:3002/get-event', {
+
+            }).then((response) => {
+
+              //EVENTS FROM DATABASE ARE STORED IN RES
+              var res = JSON.parse(JSON.stringify(response.data))
+              console.log('event 1: ')
+              console.log(res[0])
+              console.log('event 2: ')
+              console.log(res[1])
+              console.log('event 3: ')
+              console.log(res[2])
+              navigation.navigate('myevents',{allEvents: res, userid: id})
+
+              console.log(res)
+      
+            }).catch((err) => {
+               
+                console.log('error: ', err)
+            })
+  }
+
+  getDirections = (location) => {
+    if (location === 'Flora Ho Sports Centre') {
+      Linking.openURL('https://www.google.com/maps/place/Flora+Ho+Sports+Centre/@22.2805631,114.1290708,17z/data=!3m1!4b1!4m5!3m4!1s0x3403ff90108ff90d:0xd1d8bbcd136e8c39!8m2!3d22.28055!4d114.1313025')
+    }
+
+    else if (location === 'Stanley Ho Sports Centre') {
+      Linking.openURL('https://www.google.com.hk/maps/place/Pitch+2,+HKU+Stanley+Ho+Sports+Centre/@22.268357,114.124829,18z/data=!4m5!3m4!1s0x0:0x9f068ffb97d4b8f4!8m2!3d22.2685605!4d114.1239059')
+    }
+    else if (location === 'Kowloon Tsai Park') {
+      Linking.openURL('https://www.google.com/maps/dir/22.2624728,114.132033/Kowloon+Tsai+Park+Hong+Kong+google+maps/@22.2897797,114.1246407,13z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x3404072c9e65cb4d:0x82d4433342ca781c!2m2!1d114.1840189!2d22.3321858')
+    }
+    else {
+      Linking.openURL('https://www.google.com/maps/dir/22.2624728,114.132033/Kowloon+Tsai+Park+Hong+Kong+google+maps/@22.2897797,114.1246407,13z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x3404072c9e65cb4d:0x82d4433342ca781c!2m2!1d114.1840189!2d22.3321858')
+    }
+  }
+
+  getImage = (location) => {
+
+    if (location === 'Flora Ho Sports Centre') {
+      return this.IMAGES[0]
+    }
+
+    else if (location === 'Stanley Ho Sports Centre') {
+      return this.IMAGES[2]
+    }
+    else if (location === 'Kowloon Tsai Park') {
+      return this.IMAGES[3]
+    }
+    else {
+      return this.IMAGES[1]
+    }
+
+  }
+
+  getCapacity = (filledSpots, maxSpots, eventID) => {
+    
+   
+    
+    if (filledSpots.length === maxSpots) {
+      return(
+        <Text style={{fontSize: 15, color: 'red', paddingTop: 0, paddingLeft: 15}}>This event has already reached maximum capacity!</Text>
+      )
+    }
+    else {
+      return(
+      <Text style={{fontSize: 15, color: 'red', paddingTop: 0, paddingLeft: 15}}>Available Spots: {maxSpots - (filledSpots).length}/{maxSpots}</Text>
+       ) }
+  }
+
     constructor(props){
         super(props);
         //getting database data here
@@ -61,46 +144,58 @@ export default class App extends React.Component {
           //all events are here
           allEvents: this.props.navigation.state.params.res,
 
-          userid: this.props.navigation.state.params.userId,
+          userid: this.props.navigation.state.params.id,
+          maxCapEvents: []
           
-          carouselItems: 
-          [
-          {
-              name:"Badminton",
-              location: "Flora Ho Sports Centre",
-              DandT: "Tue Nov 30 2021 18:00:00 GMT+0800 (HKT)",
-              Des: "Need 3 people for an hour of Badminton at Flora Ho centre (preferably HKU students)",
-              image: this.IMAGES[0]
-          },
-          {
-              name:"Football",
-              location: "Kowloon Tsai Park",
-              DandT: "Thu Dec 2 2021 12:00:00 GMT+0800 (HKT)",
-              Des: "14 people needed - friendly matches",
-              image: this.IMAGES[1]
-          },
-          {
-              name:"Volleyball",
-              location: "Stanley Ho Sports Centre",
-              DandT: "Wed Dec 8 2021 07:30:00 GMT+0800 (HKT)",
-              Des: "Already have 6 people, need 6 more",
-              image: this.IMAGES[2]
-          },
-          {
-              name:"Tennis",
-              location: "Jordan Valley Tennis Court",
-              DandT: "Sat Dec 11 2021 10:00:00 GMT+0800 (HKT)",
-              Des: "Tennis tournament! Players, Referees etc. needed",
-              image: this.IMAGES[3]
-          },
-        ]
+        //   carouselItems: 
+        //   [
+        //   {
+        //       name:"Badminton",
+        //       location: "Flora Ho Sports Centre",
+        //       DandT: "Tue Nov 30 2021 18:00:00 GMT+0800 (HKT)",
+        //       Des: "Need 3 people for an hour of Badminton at Flora Ho centre (preferably HKU students)",
+        //       image: this.IMAGES[0]
+        //   },
+        //   {
+        //       name:"Football",
+        //       location: "Kowloon Tsai Park",
+        //       DandT: "Thu Dec 2 2021 12:00:00 GMT+0800 (HKT)",
+        //       Des: "14 people needed - friendly matches",
+        //       image: this.IMAGES[1]
+        //   },
+        //   {
+        //       name:"Volleyball",
+        //       location: "Stanley Ho Sports Centre",
+        //       DandT: "Wed Dec 8 2021 07:30:00 GMT+0800 (HKT)",
+        //       Des: "Already have 6 people, need 6 more",
+        //       image: this.IMAGES[2]
+        //   },
+        //   {
+        //       name:"Tennis",
+        //       location: "Jordan Valley Tennis Court",
+        //       DandT: "Sat Dec 11 2021 10:00:00 GMT+0800 (HKT)",
+        //       Des: "Tennis tournament! Players, Referees etc. needed",
+        //       image: this.IMAGES[3]
+        //   },
+        // ]
       }
     }
-    handleDoubleTap=(hostID, eventID, pID)=>{
+    handleDoubleTap=(hostID, eventID, pID, maxSpots)=>{
       const now = Date.now();
       const DOUBLE_PRESS_DELAY = 300;
       if (this.lastTap && (now - this.lastTap) < DOUBLE_PRESS_DELAY) {
         this.lastTap = null;
+
+    if (pID.length === maxSpots) {
+          Alert.alert(
+            "Event Registeration Failure",
+            "This event has reached its maximum capacity!",
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+        );
+        }
+    else{
         if (hostID === this.state.userid) {
           
           Alert.alert(
@@ -111,13 +206,13 @@ export default class App extends React.Component {
                 ]
             );
         }
-        else{
+        else if (hostID != this.state.userid){
           //make sure to save participant in event somehow
           //then show joined events and WE ARE DONE
 
           //send userid, event id to add to database
           //add userid to participant id in string
-          console.log(pID + this.state.userid)
+          // console.log(pIDid)
 
           axios.post('http://10.0.2.2:3002/add-participants', {
                 participantID: pID + this.state.userid,
@@ -130,8 +225,18 @@ export default class App extends React.Component {
                 console.log('error: ', err)
             })
 
+            Alert.alert(
+              "Event Registeration Successful",
+              "You have joined this event!",
+              [
+                  { text: "OK", onPress: () => this.props.navigation.navigate('homescreen') }
+              ]
+          );
+
           this.log();
         }
+      }
+       
         
 
       } else {
@@ -143,6 +248,8 @@ export default class App extends React.Component {
       console.log("SUCCESS");
     }
     _renderItem = ({item,index}) => {
+
+     
 
 
           //   Alert.alert(
@@ -160,7 +267,7 @@ export default class App extends React.Component {
       
       return (
         
-        <TouchableOpacity onPress={() => this.handleDoubleTap(item.hostID, item.eventID, item.participantIDs)}>
+        <TouchableOpacity onPress={() => this.handleDoubleTap(item.hostID, item.eventID, item.participantIDs, item.capacity)}>
         <View style={{
             backgroundColor:'#fff0f0',
             borderRadius: 5,
@@ -169,14 +276,25 @@ export default class App extends React.Component {
             //marginRight: wp('5%')
 }}>
               <Image style={{ width: '100%', height: '45%' }}
-              source={item.image}/>
-          <Text style={{fontSize: 25, color: 'black', padding: 12}}>{item.name}</Text>
+              // source={getImage(item.location)}/>
+              source = {this.getImage(item.location)} />
+              
+          <Text style={{fontSize: 25, color: 'black', paddingLeft: 12, paddingTop: 8}}>Event Name: {item.name}</Text>
+          {/* <Text style={{fontSize: 15, color: 'red', paddingTop: 0, paddingLeft: 15}}>Available Spots: {(item.participantIDs).length}/{item.capacity}</Text> */}
+          {this.getCapacity(item.participantIDs, item.capacity, item.eventID)}
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Sport: </Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.sport}</Text>
           <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Location: </Text>
+          <View style = {{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.location}</Text>
+          <TouchableOpacity onPress = {() => this.getDirections(item.location)}>
+          <Icon style = {{fontSize: hp('3%'), color: 'red', marginLeft: wp('2%')}} name = 'location-arrow'/>
+          </TouchableOpacity>
+          </View>
           <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Date and Time: </Text>
-          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.DandT}</Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.dateTime}</Text>
           <Text style={{color:'black', paddingLeft: 15, paddingTop: 3, fontWeight: 'bold'}}>Description:</Text>
-          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.Des}</Text>
+          <Text style={{color:'black', paddingLeft: 15, paddingTop: 3}}>{item.description}</Text>
         </View>
         </TouchableOpacity>
         
@@ -186,51 +304,44 @@ export default class App extends React.Component {
 
     render() {
         return (
-          <SafeAreaView style={{flex: 1, backgroundColor:'white'}}>
+          <View style={{flex: 1, backgroundColor:'white'}}>
             <View style={this.styles.header}>
                 <TouchableOpacity onPress = {() => this.props.navigation.navigate('homescreen')}>
                 <Icon name= 'arrow-left' style = {this.styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
                 {/* <TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}> */}
-                <TouchableOpacity onPress = {this.openMenu} style = {{marginLeft: wp('10%')}}>
-                  <Icon name = 'bars' style = {this.styles.arrow}/></TouchableOpacity>
+                {/* <TouchableOpacity onPress = {this.openMenu} >
+                  <Icon name = 'bars' style = {this.styles.menu}/></TouchableOpacity> */}
                 <Provider>
-                  <View
-                    style={{
-                      paddingTop: 50,
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      position: 'relative',
-                      
-                    }}>
+                  <View>
                     <Menu 
+                    style = {{marginLeft: wp('23%')}}
                       visible={this.state.visible}
                       onDismiss={this.closeMenu}
-                      anchor={<TouchableOpacity onPress = {this.setState.visible = !this.setState.visible} >
-                      <Icon name= 'bars' style = {this.styles.arrow}/>
+                      anchor={<TouchableOpacity onPress = {this.openMenu} >
+                      <Icon name= 'bars' style = {this.styles.menu}/>
                       </TouchableOpacity>}>
-                      <Menu.Item  onPress={() => {}} title="My Events" />
-                      <Menu.Item  onPress={() => {}} title="Log Out" />
+                      <Menu.Item  onPress={() => {this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})}} title="My Events" />
+                      <Menu.Item  onPress={() => {this.props.navigation.navigate('homescreen')}} title="Log Out" />
                     </Menu>
                   </View>
                   </Provider>
                 
         </View>
-            <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', 
-                         //paddingTop: hp('3%'), paddingBottom: hp('3%')  
-                        }}>
+            <View style={this.state.visible ? [this.styles.carousel, {marginTop: hp('13%')}] : this.styles.carousel} >
+                        
                 <Carousel
                   layout={"default"}
                   ref={ref => this.carousel = ref}
                   // data={this.state.allEvents}
-                  data={this.state.carouselItems}
+                  data={this.state.allEvents}
                   sliderWidth={200}
                   itemWidth={wp('100%')}
                   renderItem={this._renderItem}
                   onSnapToItem = { index => this.setState({activeIndex:index}) } />
             </View>
-          </SafeAreaView>
+          </View>
         );
     }
 }

@@ -94,8 +94,8 @@ app.post("/add-event", (req, res) => {
     
     console.log(req.body)
 
-    db.query('INSERT INTO Event (name, sport, location, dateTime, description, hostID, participantIDs) VALUES (?,?,?,?,?,?,?)',
-                [req.body.name, req.body.sport, req.body.location, req.body.dateTime, req.body.description, req.body.hostID, req.body.participantIDs],
+    db.query('INSERT INTO Event (name, sport, location, dateTime, description, hostID, participantIDs, hostContact, capacity) VALUES (?,?,?,?,?,?,?,?,?)',
+                [req.body.name, req.body.sport, req.body.location, req.body.dateTime, req.body.description, req.body.hostID, req.body.participantIDs, req.body.contact, req.body.capacity],
                 (err, result) => {
                     if (err) {
                     console.log(err)

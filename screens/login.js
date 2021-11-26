@@ -86,7 +86,7 @@ const Login = ({ navigation }) => {
                 var res = JSON.parse(JSON.stringify(response.data))
 
                 if (res.length == 0) {
-                    console.warn('heree')
+                    // console.warn('heree')
 
                     //show error alert
                     Alert.alert(
@@ -105,7 +105,7 @@ const Login = ({ navigation }) => {
                 else {
                     // merge with Saharsh code
                     
-                    console.warn(res)
+                    // console.warn(res)
                    
                     navigation.navigate('homescreen', {id: res[0].id, name: res[0].username})
 
@@ -117,7 +117,7 @@ const Login = ({ navigation }) => {
         }
 
         else {
-            console.warn('pls dont leave username and password blank')
+            // console.warn('pls dont leave username and password blank')
         }
 
     }

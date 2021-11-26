@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity, Touchable, TouchableWithoutFeedback } from 'react-native';
+import { View, ScrollView, Linking, Text, TextInput, Image, StyleSheet, TouchableOpacity, Touchable, TouchableWithoutFeedback } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationContainer } from '@react-navigation/native';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
+
 
 const MyEvents = ({navigation, route}) => {
 
@@ -17,7 +18,7 @@ const MyEvents = ({navigation, route}) => {
 
     const [eventsJoined, setEventsJoined] = useState(false)
     const [eventsHosted, setEventsHosted] = useState(true)
-    const[eventData, setEventData] = useState([])
+    const[eventData, setEventData] = useState(events)
 
     const setEventBtn = (command) => {
         if (command == 'join') {
@@ -58,15 +59,30 @@ const MyEvents = ({navigation, route}) => {
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
 
+    const sendWhatsappMsg = (number) => {
+        let url = "whatsapp://send?text=" +
+          'Hello Host' +
+          "&phone=852" +
+          number;
+        Linking.openURL(url)
+          .then(data => {
+            console.log("WhatsApp Opened successfully " + data);  //<---Success
+          })
+          .catch(() => {
+            alert("Make sure WhatsApp installed on your device");  //<---Error
+          });
+    }
+
     return(
-        <View style={styles.container}>
+        <ScrollView >
         <View style={styles.header}>
-                <TouchableOpacity onPress = {() => navigation.navigate('loginScreen')}>
+                <TouchableOpacity onPress = {() => navigation.navigate('joinscreen')}>
                 <Icon name= 'arrow-left' style = {styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
-                <TouchableOpacity onPress = {openMenu} style = {{marginLeft: 260}}>
-                <Icon name= 'bars' style = {styles.arrow}/>
+                <TouchableOpacity onPress = {() => navigation.navigate('loginScreen')} >
+                {/* <Icon name= 'bars' style = {styles.arrow}/> */}
+                <Text style = {{color: 'white', marginLeft: wp('50%'), fontSize: hp('3%')}}>Logout</Text>
                 </TouchableOpacity>
                 <Provider>
                   <View
@@ -88,34 +104,35 @@ const MyEvents = ({navigation, route}) => {
                 </Provider> 
             </View>
             <View style = {{flexDirection: 'row', flex: 1}}>
-                <TouchableOpacity  onPress = {() => setEventBtn('join')}style = {[styles.event_btns, {borderRightWidth: 1, borderRightColor: 'white'}]}>
+                <TouchableOpacity  onPress = {() => setEventBtn('join')}style = {eventsJoined ? [styles.event_btns, {borderRightWidth: 1, borderRightColor: 'white', backgroundColor: 'orange'}] : [styles.event_btns, {borderRightWidth: 1, borderRightColor: 'white'}]}>
                 <View>
                     <Text> Events Joined</Text>
                 </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress = {() => setEventBtn()} style = {styles.event_btns}>
+                <TouchableOpacity onPress = {() => setEventBtn()} style = {eventsHosted ? [styles.event_btns, {backgroundColor: 'orange'}] : styles.event_btns}>
                 <View >
                     <Text> Events Hosted</Text>
                 </View>
                 </TouchableOpacity>
             </View>
 
-            <View style = {{marginBottom: hp('20%')}}>
+            <View style = {{marginTop: hp('5%')}}>
 
-                
-               
                     {eventData.map((i) => {
                         if (eventsHosted) {
 
                             if (i.hostID == userId) {
                             return(
-                                <View style = {style.event_box}>
-                                    <Text>Event Name: {i.name}</Text>
-                                    <Text>Sport: {i.sport}</Text>
-                                    <Text>Location: {i.location}</Text>
-                                    <Text>Date & Time: {i.datetime}</Text>
-                                    <Text>Details: {i.description}</Text>
+                                <View style = {styles.event_box}>
+                                    <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text style = {{fontWeight: 'bold'}}> Event Name:</Text><Text> {i.name}</Text></View>
+                                    <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text style = {{fontWeight: 'bold'}}> Sport:</Text><Text> {i.sport}</Text></View>
+                                    
+                                    <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text style = {{fontWeight: 'bold'}}> Location:</Text><Text> {i.location}</Text></View>
+                                    <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text> {i.dateTime}</Text></View>
+                                    <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text style = {{fontWeight: 'bold'}}> Description:</Text><Text> {i.description}</Text></View>
+                                    
+                                    {/* <Text style = {{textDecorationLine: 'underline', marginLeft: wp('1%')}}>Contact host at +852-{i.hostContact} on Whatsapp</Text> */}
 
                                 </View>
                             )
@@ -132,12 +149,15 @@ const MyEvents = ({navigation, route}) => {
                                  if (parseInt(ids[x]) === userId) {
                                     return(
                                         <View style = {styles.event_box}>
-                                            <Text>Event Name: {i.name}</Text>
-                                            <Text>Sport: {i.sport}</Text>
-                                            <Text>Location: {i.location}</Text>
-                                            <Text>Date & Time: {i.datetime}</Text>
-                                            <Text>Details: {i.description}</Text>
-        
+                                            <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text style = {{fontWeight: 'bold'}}> Event Name:</Text><Text> {i.name}</Text></View>
+                                            <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text style = {{fontWeight: 'bold'}}> Sport:</Text><Text> {i.sport}</Text></View>
+                                            <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text style = {{fontWeight: 'bold'}}> Location:</Text><Text> {i.location}</Text></View>
+                                            <Text> {i.dateTime}</Text>
+                                            <View style = {{flexDirection: 'row', alignItems: 'center'}}><Text style = {{fontWeight: 'bold'}}> Description:</Text><Text> {i.description}</Text></View>
+                                           
+                                           <TouchableOpacity onPress = {() => {sendWhatsappMsg(i.hostContact)}}>
+                                            <Text style = {{textDecorationLine: 'underline', marginLeft: wp('1%')}}>Contact host at +852-{i.hostContact} on Whatsapp</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     )
                                     break
@@ -148,17 +168,13 @@ const MyEvents = ({navigation, route}) => {
            
             </View>
 
-            </View>
+            </ScrollView>
 
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-      
-
-    },
+    
     header: {
         backgroundColor: 'red',
         height: hp('9%'),
@@ -171,7 +187,7 @@ const styles = StyleSheet.create({
         height: hp('7%'), 
         alignItems: 'center',
          justifyContent: 'center',
-          backgroundColor: 'orange'
+          backgroundColor: 'lightgrey'
     },
     arrow: {
         color: 'white',

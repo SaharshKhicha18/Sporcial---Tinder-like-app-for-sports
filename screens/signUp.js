@@ -27,7 +27,7 @@ const SignUp = ({navigation}) => {
         }
 
         else {
-            console.warn('pls dont leave username and password blank')
+            // console.warn('pls dont leave username and password blank')
         }
 
     }

@@ -24,6 +24,7 @@ const Form = ({ navigation, route }) => {
     sportT: "", 
     descript: "",
     contact:"",
+    capacity:""
   }])
 
   // useEffect(() => {
@@ -60,13 +61,13 @@ const Form = ({ navigation, route }) => {
   // console.log(allVal)
 
   const addEvent  = () => {
-    console.warn(allVal)
+    // console.warn(allVal)
 
     
 
     // console.warn(allVal['0'].eventN)
     if (allVal.descript && allVal.eventN && allVal.locate &&
-      allVal.dandt && allVal.sportT) {
+      allVal.dandt && allVal.sportT && allVal.contact && allVal.capacity) {
 
 
     axios.post('http://10.0.2.2:3002/add-event', {
@@ -76,7 +77,9 @@ const Form = ({ navigation, route }) => {
       dateTime: allVal.dandt,
       hostID: id,
       sport: allVal.sportT,
-      participantIDs: id
+      participantIDs: id,
+      contact: allVal.contact,
+      capacity: allVal.capacity
 
             }).then((response) => {
 
@@ -84,7 +87,7 @@ const Form = ({ navigation, route }) => {
                     // show SUCCESS alert
                   
                 
-                
+        
             }).catch((err) => {
                
                 console.log('error: ', err)
@@ -128,13 +131,13 @@ const Form = ({ navigation, route }) => {
       
       <View style ={styles.container}>
       <View style={styles.header}>
-                <TouchableOpacity onPress = {() => navigation.navigate('hostscreen')}>
+                <TouchableOpacity onPress = {() => navigation.navigate('homescreen')}>
                 <Icon name= 'arrow-left' style = {styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
-                <TouchableOpacity onPress = {openMenu} style = {{marginLeft: 260}}>
-                <Icon name= 'bars' style = {styles.arrow}/>
-                </TouchableOpacity>
+                {/* <TouchableOpacity onPress = {openMenu} style = {{marginLeft: 260}}> */}
+                <Icon name= 'bars' style = {styles.menu}/>
+                {/* </TouchableOpacity> */}
                 <Provider>
                   <View
                     style={{
@@ -169,18 +172,18 @@ const Form = ({ navigation, route }) => {
          <Text style={styles.normText}>
            Location
          </Text >
-         <TextInput style={styles.input} 
+         {/* <TextInput style={styles.input} 
          placeholder= "Location" 
          onChangeText={(text) => setallVal({ ...allVal, locate: text })}
          >
            {selectedValue}
-         </TextInput>
-         <View>
+         </TextInput> */}
+         <View style = { {height: 40, margin: 6, backgroundColor :'#FFB3B3'}}>
            <Picker
              selectedValue = {selectedValue}
              onValueChange= {(itemValue) => setallVal({...allVal, locate: itemValue}, setSelectedValue(itemValue))}
              >
-              <Picker.Item label="" value="" />
+              <Picker.Item label="Select Location" value="" />
               <Picker.Item label="Flora Ho Sports Centre" value="Flora Ho Sports Centre" />
               <Picker.Item label="Kowloon Tsai Park" value="Kowloon Tsai Park" />
               <Picker.Item label="Stanley Ho Sports Centre" value="Stanley Ho Sports Centre" />
@@ -229,13 +232,23 @@ const Form = ({ navigation, route }) => {
            Type of Sport
          </Text>
          <TextInput style={styles.input}
-         placeholder= "Sport Type"
+         placeholder= "Name of Sport"
          onChangeText={(text) => setallVal({ ...allVal, sportT: text })}
          >
           {sp}
          </TextInput>
 
-         <View>
+         <Text style = {styles.normText}>
+           Maximum Capacity
+         </Text>
+         <TextInput style={styles.input}
+         placeholder= "maximum number of players needed"
+         onChangeText={(text) => setallVal({ ...allVal, capacity: text })}
+         >
+          {sp}
+         </TextInput>
+
+         {/* <View>
            <Picker
              sp = {sp}
              onValueChange= {(itemValue) => setallVal({...allVal, sportT: itemValue}, setSP(itemValue))}
@@ -246,14 +259,16 @@ const Form = ({ navigation, route }) => {
               <Picker.Item label="Tennis" value="Tennis" />
               <Picker.Item label="VolleyBall" value="Volleyball" />
            </Picker>
-         </View>
+         </View> */}
 
         <Text style = {styles.normText}>
            Contact Number 
          </Text>
          <TextInput 
+         placeholder= "+852"
          style={styles.input}
          onChangeText={(text) => setallVal({ ...allVal, contact: text })}
+        
          >
           </TextInput>
 
@@ -261,6 +276,8 @@ const Form = ({ navigation, route }) => {
            Description
          </Text>
          <TextInput 
+         placeholder= "Enter any extra details..."
+         
          style={styles.desc}
          onChangeText={(text) => setallVal({ ...allVal, descript: text })}
          >
@@ -290,6 +307,11 @@ const Form = ({ navigation, route }) => {
       fontSize: 17,
       marginLeft: 8
 
+    },
+    menu : {
+      color: 'white',
+      fontSize: hp('4%'),
+      marginLeft: wp('60%')
     },
     normText: {
       fontWeight: 'bold',
