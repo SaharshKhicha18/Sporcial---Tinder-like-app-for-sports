@@ -15,7 +15,9 @@ import { Menu, Divider, Provider } from 'react-native-paper';
 
 const Form = ({ navigation, route }) => {
 
-  const {id, name} = navigation.state.params
+  // const {id, name} = navigation.state.params
+  const id = 1
+  const name = 'Areeb'
 
   const [allVal, setallVal] = useState([{
     eventN: null, 

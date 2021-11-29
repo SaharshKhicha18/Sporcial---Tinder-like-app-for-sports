@@ -10,7 +10,9 @@ import axios from 'axios';
 
 const HomeScreen = ({ navigation, route }) => {
 
-  const {id, name} = navigation.state.params
+  // const {id, name} = navigation.state.params
+  const id = 1
+  const name = 'Areeb'
 
   const getEvents = () => {
 
@@ -66,7 +68,8 @@ const HomeScreen = ({ navigation, route }) => {
         <SafeAreaView style = {{marginBottom: hp('3%')}} >
         <TouchableOpacity
          onPress = {()=>
-          navigation.navigate('eventform', {id: id, name: name})
+          // navigation.navigate('eventform', {id: id, name: name})
+          navigation.navigate('eventform')
       }
          >
             <Image style={styles.imagestyle}
@@ -79,8 +82,8 @@ const HomeScreen = ({ navigation, route }) => {
         <SafeAreaView >
          <TouchableOpacity
          onPress = {()=>
-          // navigation.navigate('joinscreen')
-          getEvents()
+          navigation.navigate('joinscreen')
+          // getEvents()
       }
          >
             <Image style={styles.imagestyle}

@@ -142,10 +142,10 @@ export default class App extends React.Component {
         this.state = {
           activeIndex:0,
           //all events are here
-          allEvents: this.props.navigation.state.params.res,
+          // allEvents: this.props.navigation.state.params.res,
 
-          userid: this.props.navigation.state.params.id,
-          maxCapEvents: []
+          // userid: this.props.navigation.state.params.id,
+          maxCapEvents: [],
           
         //   carouselItems: 
         //   [
@@ -334,7 +334,6 @@ export default class App extends React.Component {
                 <Carousel
                   layout={"default"}
                   ref={ref => this.carousel = ref}
-                  // data={this.state.allEvents}
                   data={this.state.allEvents}
                   sliderWidth={200}
                   itemWidth={wp('100%')}

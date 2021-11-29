@@ -6,70 +6,6 @@ import { withSpring } from 'react-native-reanimated';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
-// class Login extends React.Component {
-
-//     state = {
-//         username: "",
-//         password: "",
-//         loading: false
-//     }
-
-//     onChangeHandle(state, value) {
-//       this.setState({
-//           [state] : value
-//       })  
-//     }
-
-//     doLogin() {
-//         const {username, password} = this.state;
-
-//         if (username && password) {
-
-//             const req = {
-//                 "email": username,
-//                 "password": password
-//             }
-
-//             this.setState({
-//                 loading: true
-//             })
-
-
-
-//             axios.post("https://reqres.in/api/login", req)
-//             .then(
-//                 res => {
-//                     this.setState({
-//                         loading: false
-//                     })
-
-//                 AsyncStorage.setItem("token", res.data.token)
-//                     .then(
-//                         res => {
-//                             console.warn("Asyncccc working")
-//                             this.props.navigation.navigate("App")
-
-//                         });
-//                     },
-
-//                 errorr => {
-//                     this.setState({
-//                         loading: false
-//                     })
-//                     alert("Username or password is wrong");
-//                 })
-
-//             }
-//         else{
-//             alert("Enter username & password");
-//         }
-
-//     }
-
-//     render() {
-
-//         const {username, password, loading} = this.state;
-
 const Login = ({ navigation }) => {
 
     const [username, setUsername] = useState("");
@@ -146,7 +82,8 @@ const Login = ({ navigation }) => {
                         secureTextEntry={true} placeholderTextColor='#333' />
                 </View>
                 <TouchableOpacity style={[styles.loginBtn, { backgroundColor: 'red' }]} onPress={() => {
-                    login()
+                    // login()
+                    navigation.navigate('homescreen')
                 }}>
                     <Text style={styles.btnText}>
                         Log in
