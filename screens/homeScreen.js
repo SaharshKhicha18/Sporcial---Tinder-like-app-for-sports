@@ -7,9 +7,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import axios from 'axios';
+import {Menu, Provider, Divider } from 'react-native-paper';
 
 const HomeScreen = ({ navigation, route }) => {
-
+  
+  const [visible, setVisible] = React.useState(false);
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
+  
   // const {id, name} = navigation.state.params
   const id = 1
   const name = 'Areeb'
@@ -48,21 +53,16 @@ const HomeScreen = ({ navigation, route }) => {
                 <Icon name= 'arrow-left' style = {styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
-                <Icon name= 'bars' style = {styles.menu}/>
-                {/* <Provider>
-                  <View>
-                    <Menu 
-                    style = {{marginLeft: wp('23%')}}
-                      visible={this.state.visible}
-                      onDismiss={this.closeMenu}
-                      anchor={<TouchableOpacity onPress = {this.openMenu} >
-                      <Icon name= 'bars' style = {this.styles.menu}/>
+                    <Menu style = {styles.menuOpen}
+                      visible={visible}
+                      onDismiss={closeMenu}
+                      anchor={<TouchableOpacity onPress = {openMenu}>
+                      <Icon name= 'bars' style = {styles.menu}/> 
                       </TouchableOpacity>}>
-                      <Menu.Item  onPress={() => {this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})}} title="My Events" />
-                      <Menu.Item  onPress={() => {this.props.navigation.navigate('homescreen')}} title="Log Out" />
+                      <Menu.Item onPress={() => {setVisible(false); navigation.navigate('joinscreen')}} title="My Events" />
+                      <Divider />
+                      <Menu.Item onPress={() => {setVisible(false); navigation.navigate('loginScreen')}} title="Log Out" />
                     </Menu>
-                  </View>
-                  </Provider> */}
         </View>
         <Text style={styles.bigT}> Welcome To Sporcial, {name} </Text> 
         <SafeAreaView style = {{marginBottom: hp('3%')}} >
@@ -96,6 +96,19 @@ const HomeScreen = ({ navigation, route }) => {
   };
 
   const styles = StyleSheet.create({
+   menu : {
+      color: 'white',
+      fontSize: hp('4%'),
+      marginLeft: wp('60%'), 
+    },
+    menuOpen: {
+      fontSize: hp('4%'),
+      marginLeft: wp('40%'), 
+      marginTop: hp('6.5%'),
+      opacity: 0.9, 
+      elevation: 2
+      
+    },
     input: {
       height: 40,
       margin: 12,
@@ -124,7 +137,8 @@ const HomeScreen = ({ navigation, route }) => {
     height: hp('9%'),
     width: '100%',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 1
 },
 bigT: {
     textAlign: 'center',
@@ -133,12 +147,8 @@ bigT: {
     fontStyle: 'italic',
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 40
+    marginTop: 10,
+    marginBottom: 75
 },
-menu : {
-  color: 'white',
-  fontSize: hp('4%'),
-  marginLeft: wp('60%')
-}
   });
   export default HomeScreen;
