@@ -34,7 +34,15 @@ export default class App extends React.Component {
     color: 'white',
     fontSize: hp('4%'),
     marginLeft: wp('60%')
-  }
+  },
+    menuOpen: {
+    fontSize: hp('4%'),
+    marginLeft: wp('40%'), 
+    marginTop: hp('6.5%'),
+    opacity: 0.9, 
+    elevation: 2
+    
+  },
   });
   IMAGES = [
     require("./images/1.jpg"),
@@ -49,13 +57,8 @@ export default class App extends React.Component {
       visible:  true});
   }
   closeMenu = () => {
-    if (this.state.visible){
-      this.setState({
-        visible: false});
-      }
-      else {
-        return;
-      }
+    this.setState({
+      visible:  false});
   }
 
   getEvents = () => {
@@ -313,23 +316,20 @@ export default class App extends React.Component {
                 {/* <TouchableOpacity onPress = {() => this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})} style = {{marginLeft: wp('10%')}}> */}
                 {/* <TouchableOpacity onPress = {this.openMenu} >
                   <Icon name = 'bars' style = {this.styles.menu}/></TouchableOpacity> */}
-                <Provider>
-                  <View>
-                    <Menu 
-                    style = {{marginLeft: wp('23%')}}
+                
+                    <Menu style = {this.styles.menuOpen}
                       visible={this.state.visible}
                       onDismiss={this.closeMenu}
                       anchor={<TouchableOpacity onPress = {this.openMenu} >
                       <Icon name= 'bars' style = {this.styles.menu}/>
                       </TouchableOpacity>}>
-                      <Menu.Item  onPress={() => {this.props.navigation.navigate('myevents', {userid: this.state.userid, allEvents: this.state.allEvents})}} title="My Events" />
-                      <Menu.Item  onPress={() => {this.props.navigation.navigate('homescreen')}} title="Log Out" />
+                      <Menu.Item  onPress={() => {this.setState({visible: false}); this.props.navigation.navigate('eventform', {userid: this.state.userid, allEvents: this.state.allEvents})}} title="My Events" />
+                      <Menu.Item  onPress={() => {this.setState({visible: false}); this.props.navigation.navigate('loginScreen')}} title="Log Out" />
                     </Menu>
-                  </View>
-                  </Provider>
+                 
                 
         </View>
-            <View style={this.state.visible ? [this.styles.carousel, {marginTop: hp('13%')}] : this.styles.carousel} >
+            <View style={this.styles.carousel} >
                         
                 <Carousel
                   layout={"default"}
