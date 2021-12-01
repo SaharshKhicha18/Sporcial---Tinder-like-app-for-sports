@@ -133,32 +133,21 @@ const Form = ({ navigation, route }) => {
       
       <View style ={styles.container}>
       <View style={styles.header}>
-                <TouchableOpacity onPress = {() => navigation.navigate('homescreen')}>
+                <TouchableOpacity onPress = {() => navigation.navigate('loginScreen')}>
                 <Icon name= 'arrow-left' style = {styles.arrow} />
                 </TouchableOpacity>
                 <Image source={require('./images/logo.png')} />
-                {/* <TouchableOpacity onPress = {openMenu} style = {{marginLeft: 260}}> */}
-                <Icon name= 'bars' style = {styles.menu}/>
-                {/* </TouchableOpacity> */}
-                <Provider>
-                  <View
-                    style={{
-                      paddingTop: 50,
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                    }}>
-                    <Menu
+                    <Menu style = {styles.menuOpen}
                       visible={visible}
                       onDismiss={closeMenu}
-                      anchor={<TouchableOpacity onPress = {openMenu} >
-                      <Icon name= 'bars' style = {styles.arrow}/>
+                      anchor={<TouchableOpacity onPress = {openMenu}>
+                      <Icon name= 'bars' style = {styles.menu}/> 
                       </TouchableOpacity>}>
-                      <Menu.Item onPress={() => {}} title="My Events" />
-                      <Menu.Item onPress={() => {}} title="Log Out" />
+                      <Menu.Item onPress={() => {setVisible(false); navigation.navigate('joinscreen')}} title="My Events" />
+                      <Divider />
+                      <Menu.Item onPress={() => {setVisible(false); navigation.navigate('loginScreen')}} title="Log Out" />
                     </Menu>
-                  </View>
-                </Provider> 
-      </View>
+        </View>
       <ScrollView>
         <SafeAreaView>
          <Text style={styles.big}> Host Event </Text>
@@ -294,7 +283,7 @@ const Form = ({ navigation, route }) => {
     );
   };
 
-  const styles = StyleSheet.create({
+ const styles = StyleSheet.create({
     big: {
       textAlign: 'center',
       textShadowRadius: 5,
@@ -314,6 +303,14 @@ const Form = ({ navigation, route }) => {
       color: 'white',
       fontSize: hp('4%'),
       marginLeft: wp('60%')
+    },
+    menuOpen: {
+      fontSize: hp('4%'),
+      marginLeft: wp('40%'), 
+      marginTop: hp('6.5%'),
+      opacity: 0.9, 
+      elevation: 2
+      
     },
     normText: {
       fontWeight: 'bold',
