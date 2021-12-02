@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 12,
         alignSelf: 'center',
-        marginTop: hp('38%'),
+        marginTop: hp('33%'),
         marginBottom: 0,
         fontWeight: 'bold'
       },
